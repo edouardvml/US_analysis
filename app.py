@@ -135,9 +135,9 @@ for idx, row in df_hazard.iterrows():
     # Ajouter les résultats à la liste
     results.append({
         'Product': variable,
-        #'Buyers after 1 month': f"{survie_1_mois * 100:.0f}%",
+        'Buyers after 1 month': f"{survie_1_mois * 100:.0f}%",
         'Buyers after 3 months': f"{survie_3_mois * 100:.0f}%",
-        #'Buyers after 6 months': f"{survie_6_mois * 100:.0f}%"
+        'Buyers after 6 months': f"{survie_6_mois * 100:.0f}%"
     })
 
 # Créer un dataframe à partir des résultats
