@@ -7,7 +7,7 @@ from utils import get_account_type_dummies, get_interaction_type_dummies
 pd.set_option('display.max_rows',50)
 pd.set_option('display.max_columns',30)
 
-df_hazard = pd.read_csv('df_hazard_app.csv', 
+df_hazard = pd.read_csv('df_hazard_app_V2.csv', 
                           delimiter = ';')
 
 st.title("Cox-PH model - US Analysis")
@@ -18,7 +18,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.header(":red[Account type]")
     # Variables correspondant au type du client
-    account_type = st.selectbox("Account type :", ['Solo Practice', 'Group DSO', 'Governement', 'Mid Market'])
+    account_type = st.selectbox("Account type :", ['Solo Practice', 'Lead Digital', 'Group DSO', 'Governement', 'Mid Market'])
     potential_real = st.selectbox("Potential Real (0, 1 ou 2) :", [0, 1, 2])
     st.write("Inside sales :")
     flag_inside_sales_checkbox = st.checkbox("True", value=False)
@@ -66,7 +66,7 @@ with col4:
 
 
 
-account_type_DSO, account_type_government, account_type_mid_market = get_account_type_dummies(account_type)
+account_type_lead_digital, account_type_DSO, account_type_government, account_type_mid_market = get_account_type_dummies(account_type)
 interaction_type_cold_call, interaction_type_co_travel, interaction_type_appointment = get_interaction_type_dummies(interaction_type)
 
 # Liste pour stocker les résultats
@@ -78,6 +78,7 @@ for idx, row in df_hazard.iterrows():
     # Customer account type
     beta_flag_inside_sales = row['flag_insides_sales']
     beta_potential_real = row['potential_real']
+    beta_account_type_lead_digital = row.get('account_type_lead_digital', 0)
     beta_account_type_DSO = row.get('account_type_DSO', 0)
     beta_account_type_government = row.get('account_type_Governement', 0)
     beta_account_type_mid_market = row.get('account_type_mid-market', 0)
@@ -110,6 +111,7 @@ for idx, row in df_hazard.iterrows():
         beta_other_pain_product * order_count_other_pain +
         beta_other_therapeutic * order_count_other_th +
         beta_septo * order_count_septo +
+        beta_account_type_lead_digital * account_type_lead_digital +
         beta_account_type_DSO * account_type_DSO +
         beta_account_type_government * account_type_government +
         beta_account_type_mid_market * account_type_mid_market + 

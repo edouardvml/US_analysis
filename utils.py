@@ -1,16 +1,18 @@
 def get_account_type_dummies(account_type):
+    account_type_lead_digital = 0
     account_type_DSO = 0
     account_type_government = 0
     account_type_mid_market = 0
-    
-    if account_type == 'Group DSO':
+    if account_type == "Lead Digital":
+        account_type_lead_digital = 1
+    elif account_type == 'Group DSO':
         account_type_DSO = 1
     elif account_type == 'Governement':
         account_type_government = 1
     elif account_type == 'Mid Market':
         account_type_mid_market = 1
     # Si 'solo_practice', toutes les variables indicatrices restent à 0
-    return account_type_DSO, account_type_government, account_type_mid_market
+    return account_type_lead_digital, account_type_DSO, account_type_government, account_type_mid_market
 
 def get_interaction_type_dummies(interaction_type):
     interaction_type_cold_call = 0
